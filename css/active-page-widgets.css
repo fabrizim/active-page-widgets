@@ -1,0 +1,32 @@
+.active-page-widgets .sidebar-list {
+    margin-bottom: 8px;
+}
+
+.active-page-widgets .sidebar-list h4 {
+    margin: 0;
+    background: #e8e8e8;
+    padding: 4px;
+}
+
+.active-page-widgets .sidebar-list ul,.active-page-widgets .sidebar-list ul li {
+    margin: 0; padding: 0;
+    list-style: none;
+    display: block;
+}
+
+.active-page-widgets .sidebar-list ul li {
+    padding: 4px;
+    margin-bottom: 0;
+}
+
+.active-page-widgets .all-none {
+    float: right;
+}
+
+.active-page-widgets .sidebar-list input {
+    width: auto;
+}
+
+.active-page-widgets .sidebar-list label {
+    display: inline;
+}
