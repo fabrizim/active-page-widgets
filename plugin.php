@@ -67,13 +67,18 @@ function apw_options()
 			<a href="?page=active-page-widgets" class="nav-tab <?php echo $subpage=='default'?'nav-tab-active':''; ?>">Defaults</a>
 			<a href="?page=active-page-widgets&subpage=home" class="nav-tab <?php echo $subpage=='home'?'nav-tab-active':''; ?>">Home</a>
 			<a href="?page=active-page-widgets&subpage=search" class="nav-tab <?php echo $subpage=='search'?'nav-tab-active':''; ?>">Search</a>
+			<a href="?page=active-page-widgets&subpage=options" class="nav-tab <?php echo $subpage=='options'?'nav-tab-active':''; ?>">Options</a>
 		</h2>
+		<?php if( $subpage != 'options' ){ ?>
 		<p>Set the default widget and sidebar settings</p>
 		<form method="post" id="post">
 			<input type="hidden" name="page" value="active-page-widgets" />
 			<?php apw_form(apw_get_sidebars_widgets($subpage)); ?>
 			<input type="submit" value="Save Settings" class="button-primary" />
 		</form>
+		<?php } else { ?>
+		Options (allow to specify which sidebars to display)
+		<?php } ?>
 	</div>
 	<?php
 }
@@ -123,7 +128,6 @@ function apw_block_inner()
 	apw_form($values);
 }
 
-add_action('edit_category_form_fields', 'apw_tag_edit_form');
 add_action('edit_tag_form_fields', 'apw_tag_edit_form');
 function apw_tag_edit_form()
 {
