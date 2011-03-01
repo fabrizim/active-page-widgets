@@ -59,7 +59,17 @@ function apw_options()
 	global $hook_suffix;
 	$subpage = @$_REQUEST['subpage'];
 	if( !$subpage ) $subpage = 'default';
-	apw_process($subpage);
+	if( $subpage != 'options' ) apw_process($subpage);
+	else if( $_SERVER['REQUEST_METHOD'] == 'POST' ){
+		$hidden_sidebars=array();
+		// save the options
+		foreach( array_keys(apw_get_sidebars()) as $key ){
+			if( @$_POST['apw-sidebar-'.$key] != 1 ){
+				$hidden_sidebars[] = $key;
+			}
+		}
+		update_option('apw_hidden_sidebars', $hidden_sidebars);
+	}
 	?>
 	<div class="wrap">
 		<?php screen_icon(); ?>
@@ -73,11 +83,24 @@ function apw_options()
 		<p>Set the default widget and sidebar settings</p>
 		<form method="post" id="post">
 			<input type="hidden" name="page" value="active-page-widgets" />
-			<?php apw_form(apw_get_sidebars_widgets($subpage)); ?>
+			<?php apw_form(apw_get_sidebars_widgets($subpage), true); ?>
 			<input type="submit" value="Save Settings" class="button-primary" />
 		</form>
 		<?php } else { ?>
-		Options (allow to specify which sidebars to display)
+		<p>Choose which sidebars show when editing pages / posts.</p>
+		<form method="post" id="apw_options">
+			<ul>
+		<?php
+		$hidden = apw_hidden_sidebars();
+		foreach( apw_get_sidebars() as $key => $sidebar ){ ?>
+				<li>
+					<input <?php if(!in_array($key, $hidden)){ ?>checked<?php } ?> name="apw-sidebar-<?php echo $key; ?>" value="1" type="checkbox" id="sidebar-<?php echo $key; ?>" />
+					<label for="sidebar-<?php echo $key; ?>" style="padding-left: 4px;"><?php echo $sidebar['name']; ?></label>
+				</li>
+		<?php } ?>
+			</ul>
+			<input type="submit" value="Save" class="button-primary" />
+		</form>
 		<?php } ?>
 	</div>
 	<?php

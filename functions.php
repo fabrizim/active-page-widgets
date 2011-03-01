@@ -1,14 +1,16 @@
 <?php
-function apw_form($values)
+function apw_form($values, $showHidden=false)
 {
+	$hidden_sidebars = apw_hidden_sidebars();
 	?>
 	<div id="active-page-widgets" class="active-page-widgets">
+		<input type="hidden" name="apw_submit" value="1" />
 	<?php
     foreach( apw_get_sidebars() as $key => $sidebar ){
 		$sidebar_checked = ($values === true) ? true : $values['sidebars'][$key] == 'on';
+		$style = !$showHidden && in_array($key, $hidden_sidebars) ? 'style="display:none;"' : '';
 		?>
-		<input type="hidden" name="apw_submit" value="1" />
-		<div class="sidebar-list">
+		<div class="sidebar-list" <?php echo $style; ?>>
 			<h4>
 				<span class="all-none">
 					<a class="all" href="javascript:;">All</a>
@@ -104,6 +106,13 @@ function apw_get_sidebars()
 	}
 	return $sidebars;
 }
+
+
+function apw_hidden_sidebars()
+{
+	return get_option('apw_hidden_sidebars', array());
+}
+
 
 /**
  * Value structure
