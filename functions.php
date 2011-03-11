@@ -80,10 +80,17 @@ function apw_get_sidebars()
 		$sidebars_widgets = wp_get_sidebars_widgets();
 		$widgets = array();
 		foreach( $wp_registered_widgets as $key => $config){
-			$widget =& $config['callback'][0];
-			$num = $config['params'][0]['number'];
-			$widget->_set($num);
-			$instance = $widget->get_settings();
+			$callback = $config['callback'];
+			$instance = array();
+			if( is_string($callback) ){
+				$instance['title'] = $config['name'];
+			}
+			else{
+				$widget =& $config['callback'][0];
+				$num = $config['params'][0]['number'];
+				$widget->_set($num);
+				$instance = $widget->get_settings();
+			}
 			if( is_array($instance) && isset( $instance[$num] ) ) $instance = $instance[$num];
 			$widgets[$key] = array(
 				'key' => $key,
